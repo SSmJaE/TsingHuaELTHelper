@@ -54,11 +54,6 @@ export interface CustomResponse extends GM_xmlhttpResponse {
 import { BASE_URL } from "@src/global";
 import * as queryString from "query-string";
 
-//对于油猴脚本来说，unsafeWindow是必须的，不然装饰器无法正常hack
-if (!process.env.CRX) {
-    window = <Window & typeof globalThis>unsafeWindow;
-}
-
 function generateFinalUrl(url: string) {
     return url.startsWith("/") ? BASE_URL + url : url;
 }
@@ -73,6 +68,7 @@ function requestOfGm(
     url: string,
     init: Init = { method: "GET", headers: {}, body: undefined, query: undefined },
 ) {
+    console.error("in gm request");
     //可以直接传入object，而不用每次手动stringify
     let body = typeof init.body === "object" ? JSON.stringify(init.body) : init.body;
     //可以以对象形式传入查询字符串
@@ -91,7 +87,7 @@ function requestOfGm(
             responseType: "json",
             onload(response: CustomResponse) {
                 const code = response.status;
-                if (code >= 200 && code <= 300) {
+                if (code >= 200 && code < 300) {
                     response.json = () => new Promise<any>((resolve) => resolve(response.response));
                     response.text = () =>
                         new Promise<string>((resolve) => resolve(response.responseText));
@@ -143,4 +139,5 @@ async function requestOfCrx(
     });
 }
 
+console.error("precess env crx" + process.env.CRX);
 export default process.env.CRX ? requestOfCrx : requestOfGm;

@@ -1,6 +1,6 @@
 {
-  "name": "unipus_helper",
-  "version": "0.0.1",
+  "name": "tsinghua_elt_helper",
+  "version": "0.0.2",
   "description": "TsingHuaELT网课助手",
   "private": true,
   "scripts": {

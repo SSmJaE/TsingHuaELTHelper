@@ -19,6 +19,7 @@ async function outputAnswers(answers: string[]) {
 import { Requests } from "./requests";
 
 export async function handleQuestions(pageDetail: any) {
+    console.error("in handle question");
     // console.log(pageDetail);
     const { questionType, answers } = await Requests.parseAnswers(pageDetail);
 

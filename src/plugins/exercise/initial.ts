@@ -1,15 +1,21 @@
 import request from "@utils/proxy";
 import { handleQuestions } from "./main";
 
+//对于油猴脚本来说，unsafeWindow是必须的，不然装饰器无法正常hook
+if (!process.env.CRX) {
+    window = <Window & typeof globalThis>unsafeWindow;
+}
+
 (function() {
-    var origOpen = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function() {
+    // console.log(1234543312);
+    const origOpen = XMLHttpRequest.prototype.open;
+    window.XMLHttpRequest.prototype.open = function() {
         this.addEventListener("load", function() {
             if (/com\/tsenglish\/textbook\/pageDetail/.test(this.responseURL)) {
                 handleQuestions(JSON.parse(this.responseText));
             }
         });
-        origOpen.apply(this, arguments as any);
+        return origOpen.apply(this, arguments as any);
     };
 })();
 

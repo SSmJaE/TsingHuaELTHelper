@@ -9,7 +9,7 @@
       <Button label="折叠" @click="collapsePanel()"></Button>
       <Button
         label="Github"
-        onclick="window.open('https://github.com/SSmJaE/UnipusHelper','_blank')"
+        onclick="window.open('https://github.com/SSmJaE/TsingHuaELTHelper','_blank')"
       ></Button>
       <Button
         label="交流群"

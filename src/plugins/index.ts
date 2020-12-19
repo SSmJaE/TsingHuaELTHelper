@@ -7,5 +7,3 @@ import exerciseSettings from "./exercise/setting";
 export let pluginSettings = [...exerciseSettings];
 
 //在此处暴露需要让上级访问的接口
-// export * from "./exam/parser";
-// export * from "./exam/requests";
