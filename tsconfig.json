@@ -1,0 +1,36 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "strict": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "allowJs": true,
+        "sourceMap": true,
+        "outDir": "./dist/",
+        "baseUrl": ".",
+        "paths": {
+            "@assets/*": [
+                "assets/*"
+            ],
+            "@src/*": [
+                "src/*"
+            ],
+            "@plugins/*": [
+                "src/plugins/*"
+            ],
+            "@utils/*": [
+                "src/utils/*"
+            ],
+        },
+        "typeRoots": [
+            "./node_modules/@types/",
+            "./src/types"
+        ],
+    },
+    "include": [
+        "src/**/*"
+    ],
+}
