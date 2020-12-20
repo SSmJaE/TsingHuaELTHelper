@@ -15,7 +15,7 @@
 
 ## 安装
 - 安装最新版本的Chrome
-- 油猴(暂不支持)
+- 油猴
   - 安装最新版本的Tamper Monkey
   - 安装最新版本的脚本
     - 可以在Github右侧Release下载TsingHuaELT[版本号].user.js文件

@@ -1,6 +1,6 @@
 {
   "name": "tsinghua_elt_helper",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "TsingHuaELT网课助手",
   "private": true,
   "scripts": {

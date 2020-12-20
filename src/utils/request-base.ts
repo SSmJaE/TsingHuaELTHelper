@@ -54,13 +54,18 @@ export interface CustomResponse extends GM_xmlhttpResponse {
 import { BASE_URL } from "@src/global";
 import * as queryString from "query-string";
 
-function generateFinalUrl(url: string) {
-    return url.startsWith("/") ? BASE_URL + url : url;
-}
-
 declare let GM_xmlhttpRequest: any;
-if (typeof GM_xmlhttpRequest !== "function") {
-    function GM_xmlhttpRequest() {}
+process.env.CRX && function GM_xmlhttpRequest() {};
+
+/**原生fetch并不支持query，所以还是要自己实现 */
+function generateFinalUrlWithQueryParams(url: string, query: StringifiableRecord) {
+    for (const [, value] of Object.entries(query || {})) {
+        if (typeof value === "object")
+            throw new Error("query params不应为嵌套对象，拍平或者手动序列化子对象");
+    }
+
+    const absoluteUrl = url.startsWith("/") ? BASE_URL + url : url;
+    return queryString.stringifyUrl({ url: absoluteUrl, query: query });
 }
 
 /**对GM_xmlhttpRequest的封装，以实现一致的fetch风格的request通用接口 */
@@ -71,15 +76,10 @@ function requestOfGm(
     console.error("in gm request");
     //可以直接传入object，而不用每次手动stringify
     let body = typeof init.body === "object" ? JSON.stringify(init.body) : init.body;
-    //可以以对象形式传入查询字符串
-    url =
-        typeof init.query === "object"
-            ? queryString.stringifyUrl({ url: url, query: init.query })
-            : url;
 
     return new Promise<CustomResponse>((resolve, reject) => {
         GM_xmlhttpRequest({
-            url: generateFinalUrl(url),
+            url: generateFinalUrlWithQueryParams(url, init.query as StringifiableRecord),
             method: init.method,
             headers: init.headers,
             data: body,
@@ -100,17 +100,6 @@ function requestOfGm(
             ontimeout: (response: GM_xmlhttpResponse) => reject(response),
         });
     });
-}
-
-/**原生fetch并不支持query，所以还是要自己实现 */
-function generateFinalUrlWithQueryParams(url: string, query: StringifiableRecord) {
-    for (const [, value] of Object.entries(query || {})) {
-        if (typeof value === "object")
-            throw new Error("query params不应为嵌套对象，拍平或者手动序列化子对象");
-    }
-
-    let absoluteUrl = url.startsWith("/") ? BASE_URL + url : url;
-    return queryString.stringifyUrl({ url: absoluteUrl, query: query });
 }
 
 /**对crx sendMessage的封装，以实现一致的fetch风格的request通用接口 */

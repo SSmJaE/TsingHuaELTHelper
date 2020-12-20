@@ -13,7 +13,7 @@ export default {
     output: {
         //__dirname即当前文件所在目录的路径，此处是根目录
         path: path.resolve(__dirname, "./dist"),
-        filename: `UnipusHelper${PACKAGE_JSON.version}.user.js`,
+        filename: `TsingHuaELT.${PACKAGE_JSON.version}.user.js`,
     },
     module: {
         rules: [

@@ -1,23 +1,7 @@
 import request from "@utils/proxy";
-import {
-    requestErrorHandler,
-    addMessage,
-    setValue,
-    getValue,
-    clearHtmlTagAndSplit,
-} from "@utils/common";
+import { requestErrorHandler, addMessage, setValue, getValue } from "@utils/common";
 
-interface GetTokenReturn {
-    openId: string;
-    token: string;
-}
-
-interface IsExistUserReturn {
-    status: boolean;
-    message: string;
-}
-
-interface CheckVersionReturn {
+interface InitialReturn {
     status: boolean;
     message: string;
 }
@@ -29,13 +13,12 @@ export class Requests {
         const LAST_CHECK_DATE = await getValue("LAST_CHECK_DATE", "2020-01-01");
 
         if (CURRENT_DATE > LAST_CHECK_DATE) {
-            const response = await request("/initial/", {
-                method: "POST",
+            const response = await request.post("/initial/", {
                 body: {
                     version: version,
                 },
             });
-            const checkVersionReturnJson = (await response.json()) as CheckVersionReturn;
+            const checkVersionReturnJson = (await response.json()) as InitialReturn;
 
             if (checkVersionReturnJson.status) {
                 addMessage(checkVersionReturnJson.message, "info");
