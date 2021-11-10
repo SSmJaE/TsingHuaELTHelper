@@ -1,7 +1,9 @@
-import requestBase, { Init, CustomResponse } from "./request-base";
+import requestBase, { Init, CustomXhrResponse, CustomFetchResponse } from "./request-base";
 
 interface RequestProxy {
-    (url: string, init?: Init): Promise<Response> | Promise<CustomResponse>;
+    <T = any>(url: string, init?: Init):
+        | Promise<CustomXhrResponse<T>>
+        | Promise<CustomFetchResponse<T>>;
 }
 
 class RequestProxy extends Function {
@@ -18,26 +20,26 @@ class RequestProxy extends Function {
         return requestBase(url, init);
     }
 
-    post(url: string, init: Init = {}) {
-        return requestBase(url, { ...init, method: "POST" });
+    post<T = any>(url: string, init: Init = {}) {
+        return requestBase<T>(url, { ...init, method: "POST" });
     }
-    delete(url: string, init: Init = {}) {
-        return requestBase(url, { ...init, method: "DELETE" });
+    delete<T = any>(url: string, init: Init = {}) {
+        return requestBase<T>(url, { ...init, method: "DELETE" });
     }
-    put(url: string, init: Init = {}) {
-        return requestBase(url, { ...init, method: "PUT" });
+    put<T = any>(url: string, init: Init = {}) {
+        return requestBase<T>(url, { ...init, method: "PUT" });
     }
-    patch(url: string, init: Init = {}) {
-        return requestBase(url, { ...init, method: "PATCH" });
+    patch<T = any>(url: string, init: Init = {}) {
+        return requestBase<T>(url, { ...init, method: "PATCH" });
     }
-    get(url: string, init: Init = {}) {
-        return requestBase(url, { ...init, method: "GET" });
+    get<T = any>(url: string, init: Init = {}) {
+        return requestBase<T>(url, { ...init, method: "GET" });
     }
-    head(url: string, init: Init = {}) {
-        return requestBase(url, { ...init, method: "HEAD" });
+    head<T = any>(url: string, init: Init = {}) {
+        return requestBase<T>(url, { ...init, method: "HEAD" });
     }
-    options(url: string, init: Init = {}) {
-        return requestBase(url, { ...init, method: "OPTIONS" });
+    options<T = any>(url: string, init: Init = {}) {
+        return requestBase<T>(url, { ...init, method: "OPTIONS" });
     }
 }
 

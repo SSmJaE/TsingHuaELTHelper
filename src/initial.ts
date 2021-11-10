@@ -3,6 +3,20 @@ import swal from "sweetalert";
 import { DEBUG_MODE } from "./global";
 import { setValue, getValue } from "@utils/common";
 
+if (process.env.CRX) {
+    function GM_setValue() {
+        console.log("invoke spare GM_setValue");
+    }
+
+    function GM_getValue() {
+        console.log("invoke spare GM_getValue");
+    }
+
+    function GM_xmlhttpRequest() {
+        console.log("invoke spare GM_xmlhttpRequest");
+    }
+}
+
 //用户协议
 (async () => {
     if (!DEBUG_MODE) {

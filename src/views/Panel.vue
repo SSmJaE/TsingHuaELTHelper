@@ -67,7 +67,7 @@ export default class Panel extends Vue {
 </script>
 
 <style>
-#unipus-helper {
+#tsinghua-helper {
   top: 100px;
   left: 100px;
   z-index: 9999;
@@ -85,7 +85,7 @@ export default class Panel extends Vue {
   line-height: normal;
 }
 
-#unipus-helper:not(:hover) {
+#tsinghua-helper:not(:hover) {
   filter: brightness(98%);
 }
 

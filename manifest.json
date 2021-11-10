@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "TsingHuaELT网课助手",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "显示清华社英语在线题目答案；支持班级测试；开放自定义设置",
     "icons": {
         "16": "icon.png",
@@ -21,8 +21,7 @@
     "content_scripts": [
         {
             "matches": [
-                "https://www.tsinghuaelt.com/course-study-student/*",
-                "https://www.tsinghuaelt.com/course-student/*"
+                "https://www.tsinghuaelt.com/*"
             ],
             "js": [
                 "inject.js",
@@ -34,7 +33,7 @@
     ],
     "permissions": [
         "storage",
-        "*://47.97.90.127/*",
+        "*://47.100.166.53/*",
         "https://www.tsinghuaelt.com/*"
     ],
     "web_accessible_resources": [

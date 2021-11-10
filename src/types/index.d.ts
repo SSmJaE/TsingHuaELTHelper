@@ -182,3 +182,14 @@ interface Message {
     info: string;
     type: InfoType;
 }
+
+interface ICommonResponse<T = null> {
+    status: boolean;
+    error?: string;
+    data: T;
+}
+
+interface IAnswer {
+    questionType: number;
+    answers: string[];
+}

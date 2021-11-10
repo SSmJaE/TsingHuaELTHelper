@@ -89,7 +89,7 @@ export default class Setting extends Vue {
   sections = controlCenter;
 
   created() {
-    Requests.checkVersion(VERSION);
+    Requests.checkVersion();
   }
 
   /**自动转换input的值为对应类型
@@ -116,7 +116,7 @@ export default class Setting extends Vue {
 
   async saveChange() {
     await setValue("USER_SETTINGS", Global.USER_SETTINGS);
-    location.reload(true);
+    location.reload();
   }
 
   setDefault() {
@@ -132,7 +132,7 @@ export default class Setting extends Vue {
 
   top: 20%;
   left: 50%;
-  width: 800px;
+  min-width: 500px;
   margin: 20px;
   z-index: 101;
 

@@ -1,11 +1,11 @@
-import * as fs from "fs";
+import fs from "fs";
 
-import webpack from "webpack";
+import webpack, { Configuration } from "webpack";
 import { merge } from "webpack-merge";
-import common from "./webpack.common.babel.js";
+import common from "./webpack.common.babel";
 
-export default merge(common, {
-    mode: "production",
+const config: Configuration = {
+    mode: "development",
     optimization: {
         minimize: false,
     },
@@ -23,6 +23,7 @@ export default merge(common, {
     externals: {
         vue: "Vue",
         $: "jQuery",
-        "crypto-js": "CryptoJS",
     },
-});
+};
+
+export default merge(common, config);

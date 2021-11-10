@@ -2,7 +2,7 @@
 // @name         TsingHuaELT网课助手
 // @namespace    https://www.github.com/SSmJaE/
 // @description  显示清华社英语在线题目答案；支持班级测试；开放自定义设置
-// @version      0.0.3
+// @version      0.0.4
 // @author       SSmJaE
 // @license      GPL-3.0
 // @compatible   Chrome
@@ -10,7 +10,7 @@
 // @match        https://www.tsinghuaelt.com/course-student/*
 // @match        https://www.tsinghuaelt.com/course-study-student/*
 // @connect      localhost
-// @connect      47.97.90.127
+// @connect      47.100.166.53
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_setClipboard

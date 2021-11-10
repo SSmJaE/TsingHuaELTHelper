@@ -35,7 +35,7 @@ class Communication {
         window.addEventListener("message", async (event) => {
             // console.error(event);
             const data = event.data;
-            if (data.extension === "unipus-helper") {
+            if (data.extension === "tsinghua-helper") {
                 if (
                     data.serviceTarget === this.serviceSource &&
                     data.serviceSource === this.serviceTarget
@@ -53,8 +53,8 @@ class Communication {
                                         chrome.runtime.sendMessage(
                                             data.payload,
                                             (response: any) => {
-                                                console.error(554321);
-                                                console.error(response);
+                                                // console.error(554321);
+                                                // console.error(response);
                                                 resolve(response);
                                             },
                                         ),
@@ -64,10 +64,10 @@ class Communication {
                                     key = payload.key;
                                     const value = payload.value;
 
-                                    await new Promise((resolve) => {
+                                    await new Promise<void>((resolve) => {
                                         chrome.storage.sync.set({ [key]: value }, function() {
                                             console.log(`${key} is set to ` + value);
-                                            resolve(undefined);
+                                            resolve();
                                         });
                                     });
 
@@ -79,7 +79,7 @@ class Communication {
 
                                     let returnValue = await new Promise((resolve) => {
                                         chrome.storage.sync.get(key, function(result) {
-                                            console.error(`${key} currently is ` + result[key]);
+                                            // console.error(`${key} currently is ` + result[key]);
                                             let temp: any;
                                             try {
                                                 temp = JSON.parse(result[key]);
@@ -103,7 +103,7 @@ class Communication {
 
                         window.postMessage(
                             {
-                                extension: "unipus-helper",
+                                extension: "tsinghua-helper",
                                 sessionId: data.sessionId,
                                 serviceType: this.serviceType,
                                 serviceSource: this.serviceSource,
@@ -116,9 +116,9 @@ class Communication {
                         );
                     }
                     if (data.type === "response") {
-                        console.error(
-                            `${this.serviceType} ${this.serviceSource} receive server ${this.serviceTarget}'s response`,
-                        );
+                        // console.error(
+                        //     `${this.serviceType} ${this.serviceSource} receive server ${this.serviceTarget}'s response`,
+                        // );
                         this.responses[data.sessionId] = data.payload;
                         this.sessions.delete(data.sessionId);
                     }
@@ -138,7 +138,7 @@ class Communication {
                 const sessionId = String(Math.random());
                 window.postMessage(
                     {
-                        extension: "unipus-helper",
+                        extension: "tsinghua-helper",
                         sessionId: sessionId,
                         serviceType: this.serviceType,
                         serviceSource: this.serviceSource,

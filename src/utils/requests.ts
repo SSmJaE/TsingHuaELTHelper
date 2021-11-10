@@ -1,5 +1,6 @@
 import request from "@utils/proxy";
 import { requestErrorHandler, addMessage, setValue, getValue } from "@utils/common";
+import { VERSION } from "@src/global";
 
 interface InitialReturn {
     status: boolean;
@@ -8,21 +9,24 @@ interface InitialReturn {
 
 export class Requests {
     @requestErrorHandler("脚本版本查询异常")
-    static async checkVersion(version: string) {
-        const CURRENT_DATE = new Date().toISOString().slice(0, 10);
-        const LAST_CHECK_DATE = await getValue("LAST_CHECK_DATE", "2020-01-01");
+    static async checkVersion() {
+        const hasChecked = sessionStorage.getItem("LAST_CHECK_DATE");
 
-        if (CURRENT_DATE > LAST_CHECK_DATE) {
-            const response = await request.post("/initial/", {
+        if (!hasChecked) {
+            const response = await request.post("/version/", {
                 body: {
-                    version: version,
+                    version: VERSION,
                 },
             });
-            const checkVersionReturnJson = (await response.json()) as InitialReturn;
 
-            if (checkVersionReturnJson.status) {
-                addMessage(checkVersionReturnJson.message, "info");
-                setValue("LAST_CHECK_DATE", CURRENT_DATE);
+            const returnJson = await response.json();
+
+            if (returnJson.status === false) {
+                throw new Error(returnJson.error);
+            } else {
+                addMessage(returnJson.data, "info");
+
+                sessionStorage.setItem("LAST_CHECK_DATE", new Date().toISOString());
             }
         }
     }

@@ -12,8 +12,9 @@ async function outputAnswers(answers: string[]) {
 
 import { Requests } from "./requests";
 
-export async function handleHomework(doDetail: any) {
-    const { questionType, answers } = await Requests.parseAnswers(doDetail);
+export async function handleHomework(pageDetail: any) {
+    const data = await Requests.queryByPageDetail(pageDetail);
+    const { questionType, answers } = data;
 
     Global.messages = [];
     console.log(answers);

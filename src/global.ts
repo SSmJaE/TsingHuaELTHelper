@@ -30,11 +30,12 @@ export let BASE_URL: string | null;
 export let DEBUG_MODE: boolean;
 
 if (process.env.NODE_ENV === "development") {
-    // BASE_URL = "http://localhost:8000/api/tsinghua";
-    BASE_URL = "http://47.97.90.127/api/tsinghua";
-    DEBUG_MODE = true;
+    // BASE_URL = "http://localhost:53212/api/tsinghua";
+    BASE_URL = "http://47.100.166.53/api/tsinghua";
+    // DEBUG_MODE = true;
+    DEBUG_MODE = false;
 } else {
-    BASE_URL = "http://47.97.90.127/api/tsinghua";
+    BASE_URL = "http://47.100.166.53/api/tsinghua";
     DEBUG_MODE = false;
 }
 

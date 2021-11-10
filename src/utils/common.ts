@@ -10,7 +10,8 @@ export function sleep(ms: number) {
 }
 
 /**添加多条消息 */
-export async function addMessage(message: Array<string | number> | Array<Message>): Promise<void>;
+export async function addMessage(message: Array<string | number>, type?: InfoType): Promise<void>;
+export async function addMessage(message: Array<Message>): Promise<void>;
 /**添加一条消息 */
 export async function addMessage(message: string | number, type?: InfoType): Promise<void>;
 export async function addMessage(
@@ -41,7 +42,7 @@ export async function addMessage(
                 await add(line.info, line.type, false);
             } else {
                 //未提供消息类型，(string|number)[]
-                await add(String(line), "normal", false);
+                await add(String(line), type ?? "normal", false);
             }
         }
         scrollDown();
@@ -60,22 +61,29 @@ export function makeDraggable(handle: HTMLElement, container: HTMLElement) {
     let draggable = false,
         pastX: number,
         pastY: number,
+        containerLeft: number,
+        containerTop: number,
         containerWidth: number,
         containerHeight: number,
-        containerLeft = getProperty(container, "left"),
-        containerTop = getProperty(container, "top"),
-        windowWidth = window.innerWidth,
-        windowHeight = window.innerHeight;
+        windowWidth: number,
+        windowHeight: number;
 
     handle.addEventListener(
         "mousedown",
         (e) => {
             handle.style.cursor = "grabbing";
             draggable = true;
+
             pastX = e.clientX;
             pastY = e.clientY;
+
+            containerLeft = getProperty(container, "left");
+            containerTop = getProperty(container, "top");
             containerWidth = getProperty(container, "width");
             containerHeight = getProperty(container, "height");
+
+            windowWidth = window.innerWidth;
+            windowHeight = window.innerHeight;
         },
         false,
     );
@@ -105,6 +113,7 @@ export function makeDraggable(handle: HTMLElement, container: HTMLElement) {
         () => {
             handle.style.cursor = "grab";
             draggable = false;
+
             containerLeft = getProperty(container, "left");
             containerTop = getProperty(container, "top");
         },
@@ -116,9 +125,9 @@ export function makeDraggable(handle: HTMLElement, container: HTMLElement) {
         "keydown",
         (e) => {
             if (e.key === "Escape") {
-                // console.log(e);
                 handle.style.cursor = "grab";
                 draggable = false;
+
                 containerLeft = getProperty(container, "left");
                 containerTop = getProperty(container, "top");
             }
@@ -133,15 +142,33 @@ export function makeDraggable(handle: HTMLElement, container: HTMLElement) {
  *
  * 如果使用了装饰器，但是未提供message，输出默认值
  */
-export function requestErrorHandler(message: string = "请求异常，稍后再试") {
+ export function requestErrorHandler(
+    message: string = "请求异常，稍后再试",
+    mode: "message" | "originError" | "both" = "message",
+) {
     return function(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         const originalMethod = descriptor.value;
 
         descriptor.value = function(...args: any[]) {
             const result = originalMethod.apply(this, args);
             result.catch((error: Error) => {
-                addMessage(`${message}`, "error");
-                // addMessage(`${error}`, "error");
+                let toDisplay = "";
+
+                switch (mode) {
+                    case "message":
+                        toDisplay += message;
+                        break;
+
+                    case "originError":
+                        toDisplay += `${error.message}`;
+                        break;
+
+                    case "both":
+                        toDisplay += message + `<br />${error.message}`;
+                        break;
+                }
+
+                addMessage(`${toDisplay}`, "error");
             });
             return result;
         };
@@ -154,8 +181,6 @@ export function requestErrorHandler(message: string = "请求异常，稍后再�
  *
  * 如果调用的是GM_setValue，会对value进行JSON.stringify */
 export async function setValue(key: string, value: any) {
-    typeof GM_setValue === "function" || function GM_setValue() {};
-
     if (process.env.CRX) {
         await injectToContent.request({
             type: "setValue",
@@ -171,8 +196,6 @@ export async function setValue(key: string, value: any) {
  *
  * 如果调用的是GM_getValue，返回JSON.parse后的结果 */
 export async function getValue(key: string, defaultValue?: any) {
-    typeof GM_getValue === "function" || function GM_getValue() {};
-
     let returnValue: any;
     if (process.env.CRX) {
         returnValue = await injectToContent.request({

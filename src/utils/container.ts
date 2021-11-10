@@ -15,11 +15,11 @@ import Setting from "@src/views/Setting.vue";
 //     location.href.includes("course.sflep.com/2019/test/") //考试答题页面
 // ) {
 //避免重复创建悬浮窗，先检测页面上是否已存在
-if (!document.querySelector("#unipus-helper")) {
+if (!document.querySelector("#tsinghua-helper")) {
     //这部分相当于创建了一个原生页面
     let container = document.createElement("div");
     container.innerHTML = `
-        <div id="unipus-helper">
+        <div id="tsinghua-helper">
             <div id="container-title">TsingHuaELT Helper</div>
             <div id="container-panel"></div>
         </div>
@@ -38,10 +38,10 @@ if (!document.querySelector("#unipus-helper")) {
     );
 
     //应用拖动
-    makeDraggable(title, document.querySelector("#unipus-helper") as HTMLElement);
+    makeDraggable(title, document.querySelector("#tsinghua-helper") as HTMLElement);
 
     //挂载实例
-    new Vue(Panel).$mount("#unipus-helper #container-panel");
+    new Vue(Panel).$mount("#tsinghua-helper #container-panel");
     new Vue(Setting).$mount("#container-setting-base");
 }
 // }

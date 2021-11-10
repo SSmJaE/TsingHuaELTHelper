@@ -12,7 +12,7 @@ if (!process.env.CRX) {
     window.XMLHttpRequest.prototype.open = function() {
         this.addEventListener("load", function() {
             if (/com\/tsenglish\/textbook\/pageDetail/.test(this.responseURL)) {
-                handleQuestions(JSON.parse(this.responseText));
+                handleQuestions(JSON.parse(this.responseText),this.responseURL);
             }
         });
         return origOpen.apply(this, arguments as any);

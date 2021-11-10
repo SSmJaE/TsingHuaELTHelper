@@ -18,8 +18,21 @@ async function outputAnswers(answers: string[]) {
 
 import { Requests } from "./requests";
 
-export async function handleQuestions(pageDetail: any) {
-    const { questionType, answers } = await Requests.parseAnswers(pageDetail);
+export async function handleQuestions(pageDetail: any, url: string) {
+    const pageId = /pageId=(\w*)/.exec(url)![1];
+
+    const response = await Requests.queryByPageId(pageId);
+
+    let returnJson: any;
+
+    if (response.status) {
+        returnJson = response.data;
+    } else {
+        const data = await Requests.queryByPageDetail(pageDetail);
+        returnJson = data;
+    }
+
+    const { questionType, answers } = returnJson;
 
     Global.messages = [];
     console.log(answers);

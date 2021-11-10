@@ -1,15 +1,13 @@
 {
   "name": "tsinghua_elt_helper",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "TsingHuaELT网课助手",
   "private": true,
   "scripts": {
-    "watch": "webpack --watch --config webpack.dev.babel.js",
-    "server": "webpack-dev-server --open --config webpack.dev.babel.js",
-    "dev": "webpack --config webpack.dev.babel.js",
-    "crx": "webpack --config webpack.crx.babel.js",
-    "gf": "webpack --config webpack.gf.babel.js",
-    "lite": "webpack --config webpack.lite.babel.js"
+    "server": "webpack-dev-server --open --config webpack.dev.babel.ts",
+    "crx:dev": "webpack  --config webpack.crx.babel.ts --mode=development --watch --devtool inline-source-map",
+    "crx:prod": "webpack --config webpack.crx.babel.ts --mode=development --devtool inline-source-map",
+    "script": "webpack --config webpack.script.babel.ts"
   },
   "author": "SSmJaE",
   "license": "GPL-3.0",
