@@ -2,7 +2,7 @@
 // @name         TsingHuaELT网课助手
 // @namespace    https://www.github.com/SSmJaE/
 // @description  显示清华社英语在线题目答案；支持班级测试；开放自定义设置
-// @version      0.0.4
+// @version      0.0.5
 // @author       SSmJaE
 // @license      GPL-3.0
 // @compatible   Chrome

@@ -11,7 +11,7 @@ if (!process.env.CRX) {
     const origOpen = XMLHttpRequest.prototype.open;
     window.XMLHttpRequest.prototype.open = function() {
         this.addEventListener("load", function() {
-            if (/com\/tsenglish\/textbook\/pageDetail/.test(this.responseURL)) {
+            if (/com\/tsenglish\/textbook\/content_detail/.test(this.responseURL)) {
                 handleQuestions(JSON.parse(this.responseText),this.responseURL);
             }
         });

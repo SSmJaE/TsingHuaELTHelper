@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "TsingHuaELT网课助手",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "显示清华社英语在线题目答案；支持班级测试；开放自定义设置",
     "icons": {
         "16": "icon.png",
